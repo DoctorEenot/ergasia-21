@@ -19,6 +19,8 @@ public class BestFit extends MemoryAllocationAlgorithm {
 
         int best_block_start = 0;
         int best_block_end = 0;
+        int best_memslot_index = 0;
+        int memslot_index=0;
 
         for(int i=0;i<this.availableBlockSizes.length;i++){
             int block_size = this.availableBlockSizes[i];
@@ -32,9 +34,9 @@ public class BestFit extends MemoryAllocationAlgorithm {
 
             boolean found_at_least_one = false;
             int previous_end = block_start_address;
-            for(int memslot_index=0;
-                memslot_index<currentlyUsedMemorySlots.size();
-                memslot_index++){
+
+            while(memslot_index<currentlyUsedMemorySlots.size()){
+
                 MemorySlot memslot = currentlyUsedMemorySlots.get(memslot_index);
                 if(memslot.getBlockStart() != block_start_address){
                     break;
@@ -46,6 +48,7 @@ public class BestFit extends MemoryAllocationAlgorithm {
                     best_distance = distance;
                     address = previous_end;
                     found_at_least_one = true;
+                    best_memslot_index = memslot_index;
                 }
                 previous_end = memslot.getEnd();
             }
@@ -56,6 +59,8 @@ public class BestFit extends MemoryAllocationAlgorithm {
                 best_distance = distance;
                 address = previous_end;
                 found_at_least_one = true;
+                best_memslot_index = memslot_index;
+
             }
             if(found_at_least_one){
                 best_block_start = block_start_address;
@@ -68,19 +73,19 @@ public class BestFit extends MemoryAllocationAlgorithm {
         if(fit){
             MemorySlot memslot = new MemorySlot(address,
                     address+p.getMemoryRequirements(),
-                          best_block_start,
-                          best_block_end);
-            int left = 0;
-            int right = currentlyUsedMemorySlots.size();
-            while(left<right){
-                int mid = (left+right)/2;
-                if(currentlyUsedMemorySlots.get(mid).getStart()<address){
-                    right = mid;
+                    best_block_start,
+                    best_block_end);
+
+            if(currentlyUsedMemorySlots.size() != 0 &&
+                    best_memslot_index<currentlyUsedMemorySlots.size()){
+                if(currentlyUsedMemorySlots.get(best_memslot_index).getStart()>best_block_start){
+                    currentlyUsedMemorySlots.add(best_memslot_index,memslot);
                 }else{
-                    left = mid+1;
+                    currentlyUsedMemorySlots.add(best_memslot_index+1,memslot);
                 }
+            }else {
+                currentlyUsedMemorySlots.add(best_memslot_index, memslot);
             }
-            currentlyUsedMemorySlots.add(left,memslot);
             return address;
         }else{
             return -1;
