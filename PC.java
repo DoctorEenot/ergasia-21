@@ -14,8 +14,8 @@ public class PC {
         };
         final int[] availableBlockSizes = {15, 40, 10, 20}; // sizes in kB
 
-        //MemoryAllocationAlgorithm algorithm = new BestFit(availableBlockSizes);
-        MemoryAllocationAlgorithm algorithm = new FirstFit(availableBlockSizes);
+        MemoryAllocationAlgorithm algorithm = new BestFit(availableBlockSizes);
+        //MemoryAllocationAlgorithm algorithm = new FirstFit(availableBlockSizes);
 
         MMU mmu = new MMU(availableBlockSizes, algorithm);
 

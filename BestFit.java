@@ -51,6 +51,7 @@ public class BestFit extends MemoryAllocationAlgorithm {
                     best_memslot_index = memslot_index;
                 }
                 previous_end = memslot.getEnd();
+                memslot_index++;
             }
             int distance = block_end_address - previous_end;
             if(distance>=p.getMemoryRequirements()&&

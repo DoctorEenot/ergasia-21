@@ -14,6 +14,8 @@ public class NextFit extends MemoryAllocationAlgorithm {
          * loaded into if the process fits. In case the process doesn't fit, it
          * should return -1. */
 
+        MemorySlot last_slot = currentlyUsedMemorySlots.get(currentlyUsedMemorySlots.size()-1);
+
         return address;
     }
 
