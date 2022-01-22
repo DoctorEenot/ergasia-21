@@ -14,7 +14,6 @@ public class FirstFit extends MemoryAllocationAlgorithm {
          * loaded into if the process fits. In case the process doesn't fit, it
          * should return -1. */
 
-        int best_distance = 0x0FFFFFFF;
         int block_start_address = 0;
 
         int best_block_start = 0;
