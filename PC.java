@@ -20,8 +20,8 @@ public class PC {
 
         MMU mmu = new MMU(availableBlockSizes, algorithm);
 
-        boolean result = mmu.loadProcessIntoRAM(processes[0]);
-        result = mmu.loadProcessIntoRAM(processes[1]);
+        boolean result = mmu.loadProcessIntoRAM(processes[1]);
+        result = mmu.loadProcessIntoRAM(processes[0]);
         result = mmu.loadProcessIntoRAM(processes[4]);
 
         Scheduler scheduler = new FCFS();
